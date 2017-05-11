@@ -31,16 +31,6 @@ public class MainActivity extends Activity
 		
 		//new PutMethodDemo().execute();
 		
-		/*EditText textMessage= (EditText) findViewById(R.id.mainEditText1);
-		textMessage.setText("Play sound");*/
-		
-	/*	Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-		MediaPlayer mp = MediaPlayer.create(getApplicationContext(), notification);
-		mp.start();
-		mp.reset();
-		mp.release();
-		*/
-		
 		playMusic();
 		
     }
@@ -263,10 +253,6 @@ public class MainActivity extends Activity
 		@Override
 		protected void onPostExecute(String s) {
 			super.onPostExecute(s);
-
-			//final TextView textView1 = (TextView) findViewById(R.id.mainTextView1);
-			//textView1.setText(server_content);
-				
 			
 			//procurar pelo texto rbtnhora
 			if(!server_content.contains("rbtnhora\" value=\"-1\""))
@@ -287,8 +273,6 @@ public class MainActivity extends Activity
 			//WebView myWebView = (WebView) findViewById(R.id.webview);
             //myWebView.loadData(server_content, "text/html", null);
 			
-			//Log.v("Response", "" + s);
-
 
 		}
 
