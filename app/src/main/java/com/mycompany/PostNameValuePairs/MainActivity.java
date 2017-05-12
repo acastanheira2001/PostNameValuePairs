@@ -32,30 +32,26 @@ public class MainActivity extends Activity
 		
 		//new PutMethodDemo().execute();
 		
-		@Override
-		public void onPostCompleted(String result){
-
-			//procurar pelo texto rbtnhora
-			if(!result.contains("rbtnhora\" value=\"-1\""))
-				Log.e("Response_agenda  ", "Agenda fechada");
-			else
-			{
-				Log.e("Response_agenda  ", "Agenda aberta");
-				//emite um som.
-
-
-			}
-
-		}
-		
-		PutMethodDemo lb = new PutMethodDemo();
-		lb.setOnPostCompletedListener(this);
-		lb.execute();
-		
-		
-		playMusic();
+			
+		PutMethodDemo pm = new PutMethodDemo();
+		pm.setOnPostCompletedListener(this);
+		pm.execute();
+				
 		
     }
+    
+    @Override
+    public void onPostCompleted(String result){
+		//procurar pelo texto rbtnhora
+		if(!result.contains("rbtnhora\" value=\"-1\""))
+			Log.e("Response_agenda  ", "Agenda fechada");
+		else
+		{
+			Log.e("Response_agenda  ", "Agenda aberta");
+			//emite um som.
+			playMusic();
+			}
+		}
 	
 	
 	public void playMusic() {
