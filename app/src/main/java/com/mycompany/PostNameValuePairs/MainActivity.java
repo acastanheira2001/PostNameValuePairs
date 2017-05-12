@@ -16,6 +16,7 @@ import org.apache.http.impl.client.*;
 import org.apache.http.impl.conn.tsccm.*;
 import org.apache.http.message.*;
 import org.apache.http.params.*;
+import javax.xml.transform.*;
 
 public class MainActivity extends Activity 
 {
@@ -31,6 +32,27 @@ public class MainActivity extends Activity
 		
 		//new PutMethodDemo().execute();
 		
+		@Override
+		public void onPostCompleted(String result){
+
+			//procurar pelo texto rbtnhora
+			if(!result.contains("rbtnhora\" value=\"-1\""))
+				Log.e("Response_agenda  ", "Agenda fechada");
+			else
+			{
+				Log.e("Response_agenda  ", "Agenda aberta");
+				//emite um som.
+
+
+			}
+
+		}
+		
+		PutMethodDemo lb = new PutMethodDemo();
+		lb.setOnPostCompletedListener(this);
+		lb.execute();
+		
+		
 		playMusic();
 		
     }
@@ -41,7 +63,10 @@ public class MainActivity extends Activity
 		//Se algum som ainda estiver a tocar pára-o
 		releasePlayer();
 
-		mp = MediaPlayer.create(this, R.raw.ulso);
+		Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+		MediaPlayer mp = MediaPlayer.create(getApplicationContext(), notification);
+		
+		//mp = MediaPlayer.create(this, R.raw.ulso);
 		mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 				public void onCompletion(MediaPlayer mp) {
 					//No final de tocar liberta o media player para poder ser novamente utilizado
@@ -73,6 +98,19 @@ public class MainActivity extends Activity
 		String server_content = null;
 		HttpClient client = getThreadSafeClient();
 
+		private OnPostCompletedListener onPostCompletedListener;
+		
+		
+		public interface OnPostCompletedListener{
+			void onPostCompleted(String result);
+		}
+		
+		public void setOnPostCompletedListener(OnPostCompletedListener onPostCompletedListener){
+			this.onPostCompletedListener = onPostCompletedListener;
+		}
+		
+		
+		
 		public DefaultHttpClient getThreadSafeClient()  {
 
 			DefaultHttpClient client = new DefaultHttpClient();
@@ -253,6 +291,13 @@ public class MainActivity extends Activity
 		@Override
 		protected void onPostExecute(String s) {
 			super.onPostExecute(s);
+			
+			if(onPostCompletedListener != null){
+				//Chama o listener passando a string
+				onPostCompletedListener.onPostCompleted(s);
+			}
+			
+			
 			
 			//procurar pelo texto rbtnhora
 			if(!server_content.contains("rbtnhora\" value=\"-1\""))
