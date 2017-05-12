@@ -31,8 +31,6 @@ public class MainActivity extends Activity
         setContentView(R.layout.main);
 		
 		//new PutMethodDemo().execute();
-		
-			
 		PutMethodDemo pm = new PutMethodDemo();
 		pm.setOnPostCompletedListener(this);
 		pm.execute();
